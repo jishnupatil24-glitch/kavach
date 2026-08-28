@@ -1,0 +1,6 @@
+backend/.venv/
+__pycache__/
+*.pyc
+backend/kavach.db
+backend/tests/**/kavach.db
+.pytest_cache/
