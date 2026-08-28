@@ -1,0 +1,88 @@
+{
+  "run_id": 582,
+  "crop": "tomato",
+  "assessment_day": 7,
+  "farm_configuration": {
+    "exists": true,
+    "crop": "tomato",
+    "field_area": 1.0,
+    "field_area_unit": "acre",
+    "plant_population": 8000,
+    "plant_spacing_m": null,
+    "row_spacing_m": null,
+    "cultivar": "DEMO configuration (Phase 6 real-run demonstration, not a real farmer input)",
+    "irrigation_system_type": "drip",
+    "irrigation_efficiency_pct": null,
+    "available_water_l_per_day": 50000.0,
+    "pump_capacity_l_per_hour": 3000.0,
+    "pump_power_kw": null,
+    "water_cost_per_liter": 0.0005,
+    "fertilizer_cost_per_kg_n": null,
+    "fertilizer_cost_per_kg_p2o5": null,
+    "fertilizer_cost_per_kg_k2o": null
+  },
+  "water_optimizations": [
+    {
+      "category": "water_depletion",
+      "action_label": "Water Depletion",
+      "direction": "increase",
+      "stage_name": "kc_initial_stage",
+      "baseline_l_per_plant_day": 1.5,
+      "baseline_provenance": "PROJECT_DEFINED",
+      "severity": "HIGH",
+      "adjustment_pct": 30.0,
+      "adjustment_provenance": "PROJECT_DEFINED",
+      "optimized_l_per_plant_day": 1.9500000000000002,
+      "optimized_provenance": "MODELED",
+      "plant_population": {
+        "plants": 8000,
+        "source": "PROVIDED",
+        "note": "Explicit plant_population from farm configuration."
+      },
+      "baseline_l_per_day": 12000.0,
+      "optimized_l_per_day": 15600.000000000002,
+      "water_saved_l_per_day": -3600.000000000002,
+      "water_saving_percentage": -30.000000000000014,
+      "review_cycle_days": 3.0,
+      "review_cycle_provenance": "PROJECT_DEFINED",
+      "total_baseline_liters": 36000.0,
+      "total_optimized_liters": 46800.00000000001,
+      "total_water_saved_liters": -10800.000000000007,
+      "irrigation_efficiency_pct": 85.0,
+      "irrigation_efficiency_source": "system_type_lookup",
+      "delivered_baseline_l_per_day": 14117.64705882353,
+      "delivered_optimized_l_per_day": 18352.94117647059,
+      "feasibility": [
+        {
+          "label": "available_water",
+          "status": "PASS",
+          "detail": "required 18352.9 L/day vs available 50000.0 L/day"
+        },
+        {
+          "label": "pump_capacity",
+          "status": "PASS",
+          "detail": "required 18352.9 L/day vs pump's theoretical 24h/day maximum of 72000.0 L/day (continuous-operation upper bound, not a duty-cycle estimate)"
+        }
+      ],
+      "cost": {
+        "status": "AVAILABLE",
+        "baseline_cost": 7.058823529411765,
+        "optimized_cost": 9.176470588235295,
+        "cost_change": 2.11764705882353,
+        "detail": "water cost at configured rate 0.0005 per unit."
+      },
+      "expected_direction": "RISING",
+      "expected_direction_basis": "MODELED EXPECTED DIRECTION",
+      "limitations": [
+        "KAVACH project-defined prototype optimization parameter -- not an externally sourced agronomic fact. (irrigation_system_type=drip)"
+      ]
+    }
+  ],
+  "nutrient_optimizations": [],
+  "unsupported": [],
+  "multi_action_note": null,
+  "limitations": [
+    "Prototype optimization model.",
+    "Values marked PROJECT_DEFINED are assumptions and are not scientifically validated agronomic prescriptions."
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "run_id": 582,
+  "crop": "tomato",
+  "assessment_day": 7,
+  "decisions": [
+    {
+      "category": "water_depletion",
+      "label": "Water Depletion",
+      "status": "weak_evidence",
+      "severity": "HIGH",
+      "abnormal_duration_days": 5,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": true,
+          "detail": "status=weak_evidence"
+        },
+        {
+          "name": "severity_floor",
+          "passed": true,
+          "detail": "severity=HIGH vs configured floor=MODERATE"
+        },
+        {
+          "name": "duration_floor",
+          "passed": true,
+          "detail": "abnormal_state_duration.days=5 vs configured floor=5"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "ACTION_RECOMMENDED",
+      "action_label": "Increase irrigation",
+      "action_type": "QUALITATIVE",
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "No quantitative agronomic/operational parameter (irrigation quantity, fertilizer quantity, frequency, cost, or similar) exists in the current knowledge base for this category -- recommendation is qualitative only, never a fabricated quantity."
+      ],
+      "priority": 1,
+      "priority_reason": "evidence=weak_evidence, severity_score=5/6, category='water_depletion' (tie-break)"
+    },
+    {
+      "category": "excessive_moisture",
+      "label": "Excessive Moisture",
+      "status": "no_evidence",
+      "severity": "HIGH",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "heat_related",
+      "label": "Heat-Related",
+      "status": "corroborated_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 2,
+      "abnormal_duration_tier": "sourced_threshold",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": true,
+          "detail": "status=corroborated_evidence"
+        },
+        {
+          "name": "severity_floor",
+          "passed": false,
+          "detail": "severity=LOW vs configured floor=MODERATE"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "MONITOR",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "Sourced-threshold abnormal state: current value >= 25.0\u00b0C (the lowest of 4 sourced cultivar-specific critical-temperature values -- 'abnormal' means at or above the most conservative sourced figure).",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "temperature_deficit",
+      "label": "Temperature Deficit",
+      "status": "no_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "A sourced value exists for temperature_min_c (15.0\u00b0C), but it is not usable as a quantitative action gate here (day/stage not applicable to this run, or unconvertible without additional configuration not yet present) -- shown for provenance only."
+      ],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "humidity_low",
+      "label": "Low Humidity",
+      "status": "weak_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "sourced_threshold",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": true,
+          "detail": "status=weak_evidence"
+        },
+        {
+          "name": "severity_floor",
+          "passed": false,
+          "detail": "severity=LOW vs configured floor=MODERATE"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "MONITOR",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "Sourced-threshold abnormal state: current value <= 50.0% (sourced humidity_min_pct band's own upper edge).",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "humidity_high",
+      "label": "High Humidity",
+      "status": "no_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "sourced_threshold",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "Sourced-threshold abnormal state: current value >= 80.0% (sourced humidity_max_pct band's own lower edge).",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "nitrogen_related",
+      "label": "Nitrogen-Related",
+      "status": "weak_evidence",
+      "severity": "HIGH",
+      "abnormal_duration_days": 1,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": true,
+          "detail": "status=weak_evidence"
+        },
+        {
+          "name": "severity_floor",
+          "passed": true,
+          "detail": "severity=HIGH vs configured floor=MODERATE"
+        },
+        {
+          "name": "duration_floor",
+          "passed": false,
+          "detail": "abnormal_state_duration.days=1 vs configured floor=5"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "MONITOR",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "A sourced value exists for n_total_requirement_g_plant_season (200 kg N/ha total season; split 10/40/30/20% across transplanting-establishment / flower-initiation-to-flowering / flowering-to-fruit-set / alternate-day-from-picking stages), but it is not usable as a quantitative action gate here (day/stage not applicable to this run, or unconvertible without additional configuration not yet present) -- shown for provenance only."
+      ],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "phosphorus_related",
+      "label": "Phosphorus-Related",
+      "status": "no_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "A sourced value exists for p2o5_total_requirement_g_plant_season (250 kg P2O5/ha total season, same 10/40/30/20% stage split as N), but it is not usable as a quantitative action gate here (day/stage not applicable to this run, or unconvertible without additional configuration not yet present) -- shown for provenance only."
+      ],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "potassium_related",
+      "label": "Potassium-Related",
+      "status": "no_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "A sourced value exists for k2o_total_requirement_g_plant_season (250 kg K2O/ha total season, same 10/40/30/20% stage split as N), but it is not usable as a quantitative action gate here (day/stage not applicable to this run, or unconvertible without additional configuration not yet present) -- shown for provenance only."
+      ],
+      "priority": null,
+      "priority_reason": null
+    },
+    {
+      "category": "light_deficit",
+      "label": "Light Deficit",
+      "status": "no_evidence",
+      "severity": "LOW",
+      "abnormal_duration_days": 0,
+      "abnormal_duration_tier": "icar_sign_trend_proxy",
+      "eligibility_checks": [
+        {
+          "name": "evidence_status",
+          "passed": false,
+          "detail": "status=no_evidence"
+        }
+      ],
+      "conflict_with": null,
+      "outcome": "NO_ACTION",
+      "action_label": null,
+      "action_type": null,
+      "action_basis": "This is an ICAR-deviation-sign + trend-direction proxy, NOT a sourced agronomic threshold -- no sourced numeric threshold exists for this category in the current agronomic dataset.",
+      "decision_provenance": "PROJECT_DEFINED",
+      "quantitative_basis": null,
+      "limitations": [
+        "A sourced value exists for dli_target_mol_m2_day (15.0-20.0mol/m2/day), but it is not usable as a quantitative action gate here (day/stage not applicable to this run, or unconvertible without additional configuration not yet present) -- shown for provenance only."
+      ],
+      "priority": null,
+      "priority_reason": null
+    }
+  ]
+}

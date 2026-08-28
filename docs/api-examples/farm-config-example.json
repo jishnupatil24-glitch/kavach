@@ -1,0 +1,19 @@
+{
+  "simulation_run_id": 582,
+  "crop": "tomato",
+  "field_area": 1.0,
+  "field_area_unit": "acre",
+  "plant_population": 8000,
+  "plant_spacing_m": null,
+  "row_spacing_m": null,
+  "cultivar": "DEMO configuration (Phase 6 real-run demonstration, not a real farmer input)",
+  "irrigation_system_type": "drip",
+  "irrigation_efficiency_pct": null,
+  "available_water_l_per_day": 50000.0,
+  "pump_capacity_l_per_hour": 3000.0,
+  "pump_power_kw": null,
+  "water_cost_per_liter": 0.0005,
+  "fertilizer_cost_per_kg_n": null,
+  "fertilizer_cost_per_kg_p2o5": null,
+  "fertilizer_cost_per_kg_k2o": null
+}
