@@ -27,8 +27,9 @@ describe('api client error normalisation', () => {
         detail: [{ loc: ['body', 'severity'], msg: 'field required', type: 'value_error.missing' }],
       }),
     );
-    const err = await api.get('/x').catch((e) => e as ApiError);
+    const err: unknown = await api.get('/x').catch((e: unknown) => e);
     expect(err).toBeInstanceOf(ApiError);
+    if (!(err instanceof ApiError)) throw err;
     expect(err.httpStatus).toBe(422);
     expect(err.detail).toContain('severity: field required');
   });

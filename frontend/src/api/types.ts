@@ -6,7 +6,7 @@
  *  - Nullable JSON values are `T | null` (never optional-only).
  *  - Enum-shaped strings are string-literal unions.
  *  - No invented fields. If the backend returns extra keys they are ignored.
- *  - Phase 6 (Optimization*/FarmConfiguration*) types describe the CONTRACT.
+ *  - Phase 6 (Optimization* / FarmConfiguration*) types describe the CONTRACT.
  *    The route is not mounted yet; those are served by the mock adapter until
  *    GET /api/optimization/tomato/runs/{id} exists.
  */

@@ -150,7 +150,7 @@ export async function saveFarmConfigMock(
 
   const merged: FarmConfiguration = { ...current };
   for (const [k, v] of Object.entries(body)) {
-    if (v !== undefined) (merged as Record<string, unknown>)[k] = v;
+    if (v !== undefined) (merged as unknown as Record<string, unknown>)[k] = v;
   }
   merged.exists = merged.field_area != null && merged.field_area_unit != null;
   store.set(runId, merged);
