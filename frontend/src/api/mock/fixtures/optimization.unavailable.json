@@ -1,0 +1,94 @@
+{
+  "run_id": 584,
+  "crop": "tomato",
+  "assessment_day": 37,
+  "farm_configuration": {
+    "exists": true,
+    "crop": "tomato",
+    "field_area": 1.0,
+    "field_area_unit": "acre",
+    "plant_population": 8000,
+    "plant_spacing_m": null,
+    "row_spacing_m": null,
+    "cultivar": "DEMO configuration (Phase 6 real-run demonstration, not a real farmer input)",
+    "irrigation_system_type": "drip",
+    "irrigation_efficiency_pct": null,
+    "available_water_l_per_day": 50000.0,
+    "pump_capacity_l_per_hour": 3000.0,
+    "pump_power_kw": null,
+    "water_cost_per_liter": 0.0005,
+    "fertilizer_cost_per_kg_n": null,
+    "fertilizer_cost_per_kg_p2o5": null,
+    "fertilizer_cost_per_kg_k2o": null
+  },
+  "water_optimizations": [
+    {
+      "category": "excessive_moisture",
+      "action_label": "Excessive Moisture",
+      "direction": "decrease",
+      "stage_name": null,
+      "baseline_l_per_plant_day": null,
+      "baseline_provenance": "PROJECT_DEFINED",
+      "severity": "MODERATE",
+      "adjustment_pct": 20.0,
+      "adjustment_provenance": "PROJECT_DEFINED",
+      "optimized_l_per_plant_day": null,
+      "optimized_provenance": "MODELED",
+      "plant_population": {
+        "plants": 8000,
+        "source": "PROVIDED",
+        "note": "Explicit plant_population from farm configuration."
+      },
+      "baseline_l_per_day": null,
+      "optimized_l_per_day": null,
+      "water_saved_l_per_day": null,
+      "water_saving_percentage": null,
+      "review_cycle_days": 3.0,
+      "review_cycle_provenance": "PROJECT_DEFINED",
+      "total_baseline_liters": null,
+      "total_optimized_liters": null,
+      "total_water_saved_liters": null,
+      "irrigation_efficiency_pct": 85.0,
+      "irrigation_efficiency_source": "system_type_lookup",
+      "delivered_baseline_l_per_day": null,
+      "delivered_optimized_l_per_day": null,
+      "feasibility": [
+        {
+          "label": "available_water",
+          "status": "NOT_EVALUATED",
+          "detail": "Required delivered field volume is unknown (no baseline for this stage) -- feasibility not evaluated."
+        },
+        {
+          "label": "pump_capacity",
+          "status": "NOT_EVALUATED",
+          "detail": "Required delivered field volume is unknown (no baseline for this stage) -- feasibility not evaluated."
+        }
+      ],
+      "cost": {
+        "status": "UNAVAILABLE",
+        "baseline_cost": null,
+        "optimized_cost": null,
+        "cost_change": null,
+        "detail": "Field-level water quantity is unknown (no baseline for this stage) -- cost UNAVAILABLE."
+      },
+      "expected_direction": "FALLING",
+      "expected_direction_basis": "MODELED EXPECTED DIRECTION",
+      "limitations": [
+        "Day 37 resolves to stage(s) ['full_cycle', 'kc_development_stage'] -- no approved baseline_irrigation parameter covers this window, so baseline_l_per_plant_day and every field-level figure derived from it are reported as UNAVAILABLE rather than guessed."
+      ]
+    }
+  ],
+  "nutrient_optimizations": [],
+  "unsupported": [
+    {
+      "category": "heat_related",
+      "action_label": "Address heat stress",
+      "reason": "No quantitative resource model exists for this category -- heat/cold/humidity/light interventions would require equipment-specific parameters (fan/misting/lamp capacity) not currently in scope. Phase 5's qualitative recommendation stands."
+    }
+  ],
+  "multi_action_note": null,
+  "limitations": [
+    "Prototype optimization model.",
+    "Values marked PROJECT_DEFINED are assumptions and are not scientifically validated agronomic prescriptions."
+  ]
+}

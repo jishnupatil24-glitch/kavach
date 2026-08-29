@@ -1,0 +1,130 @@
+/*
+ * KAVACH design tokens.
+ *
+ * Palette tokens are stored as space-separated "R G B" channels so Tailwind can
+ * apply opacity modifiers (bg-brand-700/30 etc). Reference them with
+ * rgb(var(--token)) in hand-written CSS / inline styles.
+ *
+ * --chart-* and --evidence-* stay as complete colour strings because they are
+ * only ever passed straight to SVG/JS as colour values, never with an alpha
+ * modifier.
+ *
+ * Light ("Greenhouse Daylight") is the default. Dark ("Field Console") applies
+ * on <html data-theme="dark"> or when the OS prefers dark and the user has not
+ * explicitly chosen light.
+ */
+
+:root {
+  /* Greenhouse Daylight */
+  --bg: 246 245 239;
+  --surface: 255 255 255;
+  --surface-sunken: 239 238 228;
+  --surface-raised: 255 255 255;
+  --border-hairline: 225 224 210;
+  --ink: 22 38 27;
+  --body: 43 55 46;
+  --muted: 92 107 94;
+
+  --brand-900: 15 61 46;
+  --brand-700: 27 127 76;
+  --brand-tint: 221 239 226;
+  --accent-gold: 176 121 31;
+  --accent-gold-soft: 240 228 204;
+
+  /* Severity ramp — hue axis, distinct in shape and colour from evidence. */
+  --sev-low: 91 124 166;
+  --sev-moderate: 185 129 43;
+  --sev-high: 196 83 31;
+  --sev-critical: 179 38 30;
+
+  /* Feasibility */
+  --feas-pass: 27 127 76;
+  --feas-fail: 179 38 30;
+
+  /* Modeled-blue: used only inside the Phase 6 prototype for savings, so mock
+     numbers never borrow the "healthy" green. */
+  --modeled-blue: 61 110 165;
+
+  --focus-ring: 27 127 76;
+
+  /* Complete colour strings (no alpha modifier is ever applied to these). */
+  --evidence-ink: #2b372e;
+  --evidence-track: #d9d8cb;
+  --chart-value: #1b7f4c;
+  --chart-reference: #8a7a4a;
+  --chart-band: rgba(27, 127, 76, 0.12);
+  --chart-grid: #e1e0d2;
+}
+
+:root[data-theme='dark'] {
+  --bg: 16 20 15;
+  --surface: 23 28 21;
+  --surface-sunken: 18 22 15;
+  --surface-raised: 30 37 27;
+  --border-hairline: 44 53 42;
+  --ink: 234 240 228;
+  --body: 196 207 188;
+  --muted: 138 150 129;
+
+  --brand-900: 15 61 46;
+  --brand-700: 63 181 110;
+  --brand-tint: 23 48 31;
+  --accent-gold: 216 169 74;
+  --accent-gold-soft: 43 36 21;
+
+  --sev-low: 126 160 200;
+  --sev-moderate: 214 162 79;
+  --sev-high: 224 122 76;
+  --sev-critical: 224 101 91;
+
+  --feas-pass: 63 181 110;
+  --feas-fail: 224 101 91;
+
+  --modeled-blue: 110 163 216;
+
+  --focus-ring: 63 181 110;
+
+  --evidence-ink: #c4cfbc;
+  --evidence-track: #2c352a;
+  --chart-value: #3fb56e;
+  --chart-reference: #cbb27a;
+  --chart-band: rgba(63, 181, 110, 0.16);
+  --chart-grid: #2c352a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: 16 20 15;
+    --surface: 23 28 21;
+    --surface-sunken: 18 22 15;
+    --surface-raised: 30 37 27;
+    --border-hairline: 44 53 42;
+    --ink: 234 240 228;
+    --body: 196 207 188;
+    --muted: 138 150 129;
+
+    --brand-900: 15 61 46;
+    --brand-700: 63 181 110;
+    --brand-tint: 23 48 31;
+    --accent-gold: 216 169 74;
+    --accent-gold-soft: 43 36 21;
+
+    --sev-low: 126 160 200;
+    --sev-moderate: 214 162 79;
+    --sev-high: 224 122 76;
+    --sev-critical: 224 101 91;
+
+    --feas-pass: 63 181 110;
+    --feas-fail: 224 101 91;
+
+    --modeled-blue: 110 163 216;
+    --focus-ring: 63 181 110;
+
+    --evidence-ink: #c4cfbc;
+    --evidence-track: #2c352a;
+    --chart-value: #3fb56e;
+    --chart-reference: #cbb27a;
+    --chart-band: rgba(63, 181, 110, 0.16);
+    --chart-grid: #2c352a;
+  }
+}
