@@ -143,22 +143,94 @@ def test_full_gate_with_unmatched_corroboration_is_weak_evidence(seeded_agronomi
         db.close()
 
 
-def test_humidity_low_corroboration_boundary(seeded_agronomics_db):
+def test_humidity_low_three_zone_boundary(seeded_agronomics_db):
+    # humidity_min_pct sourced range is 30-50% (30 = failure floor, 50 = optimal-band
+    # start, per Shamshiri et al. 2018's own notes -- two distinct calibration points,
+    # not one disputed number). Corrected 3-zone behavior, approved:
+    #   at/above 50%  -> NO_EVIDENCE
+    #   30% - 50%     -> WEAK_EVIDENCE, scaled by boundary_ratio
+    #   at/below 30%  -> CORROBORATED_EVIDENCE
     db = SessionLocal()
     try:
-        # humidity_min_pct sourced range is 30-50%; 45% is within/below that band -> matched
-        pa = _pa("FALLING", 3, -5.0, value=45.0, field="humidity_pct")
-        result = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa, None)
-        assert result.status == STATUS_CORROBORATED_EVIDENCE
-        assert "at or below" in result.sourced_corroboration_notes[0]
+        # at the optimal edge exactly -> not abnormal at all
+        pa_edge = _pa("FALLING", 3, -5.0, value=50.0, field="humidity_pct")
+        result_edge = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa_edge, None)
+        assert result_edge.status == STATUS_NO_EVIDENCE
 
-        # 70% is above the band -> gate could still be met but not corroborated;
-        # regression check: the note text must actually say so, not just the tier.
-        pa2 = _pa("FALLING", 3, -5.0, value=70.0, field="humidity_pct")
-        result2 = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa2, None)
-        assert result2.status == STATUS_WEAK_EVIDENCE
-        assert "not within the sourced band" in result2.sourced_corroboration_notes[0]
-        assert "at or below" not in result2.sourced_corroboration_notes[0]
+        # mid sub-optimal zone -> weak evidence, boundary_ratio = (50-45)/20 = 0.25
+        pa_mid = _pa("FALLING", 3, -5.0, value=45.0, field="humidity_pct")
+        result_mid = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa_mid, None)
+        assert result_mid.status == STATUS_WEAK_EVIDENCE
+        assert result_mid.severity_factors.deviation_ratio == pytest.approx(0.25)
+        assert "boundary_ratio=0.25" in result_mid.sourced_corroboration_notes[0]
+
+        # at/below the failure floor -> corroborated
+        pa_floor = _pa("FALLING", 3, -5.0, value=25.0, field="humidity_pct")
+        result_floor = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa_floor, None)
+        assert result_floor.status == STATUS_CORROBORATED_EVIDENCE
+        assert result_floor.severity_factors.deviation_ratio == pytest.approx(1.0)
+
+        # far above the band entirely -> no evidence (real bug shape: was previously
+        # weak_evidence at 70% against a 50% boundary)
+        pa_far = _pa("FALLING", 3, -5.0, value=70.0, field="humidity_pct")
+        result_far = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa_far, None)
+        assert result_far.status == STATUS_NO_EVIDENCE
+        assert "not crossed" in result_far.sourced_corroboration_notes[0]
+    finally:
+        db.close()
+
+
+def test_humidity_high_three_zone_boundary(seeded_agronomics_db):
+    # humidity_max_pct sourced range is 80-100% (80 = onset edge, 100 = physical
+    # ceiling). No existing run/scenario in this repo ever reaches this band (max
+    # observed humidity across all stored data is ~76.79%), so this is the first
+    # coverage of humidity_high's corroboration at all -- synthetic values required.
+    db = SessionLocal()
+    try:
+        pa_edge = _pa("RISING", 3, 5.0, value=80.0, field="humidity_pct")
+        result_edge = compute_problem_assessment(db, "tomato", _category("humidity_high"), pa_edge, None)
+        assert result_edge.status == STATUS_NO_EVIDENCE
+
+        pa_mid = _pa("RISING", 3, 5.0, value=90.0, field="humidity_pct")
+        result_mid = compute_problem_assessment(db, "tomato", _category("humidity_high"), pa_mid, None)
+        assert result_mid.status == STATUS_WEAK_EVIDENCE
+        assert result_mid.severity_factors.deviation_ratio == pytest.approx(0.5)
+        assert "boundary_ratio=0.50" in result_mid.sourced_corroboration_notes[0]
+
+        pa_ceiling = _pa("RISING", 3, 5.0, value=100.0, field="humidity_pct")
+        result_ceiling = compute_problem_assessment(db, "tomato", _category("humidity_high"), pa_ceiling, None)
+        assert result_ceiling.status == STATUS_CORROBORATED_EVIDENCE
+        assert result_ceiling.severity_factors.deviation_ratio == pytest.approx(1.0)
+
+        pa_below = _pa("RISING", 3, 5.0, value=75.0, field="humidity_pct")
+        result_below = compute_problem_assessment(db, "tomato", _category("humidity_high"), pa_below, None)
+        assert result_below.status == STATUS_NO_EVIDENCE
+    finally:
+        db.close()
+
+
+def test_humidity_generic_proxy_cannot_create_evidence_without_boundary_crossing(seeded_agronomics_db):
+    """
+    Regression test for the confirmed bug: the generic trend/persistence/
+    ICAR-sign proxy (adverse_trend_matched + persistence_exists +
+    icar_deviation_adverse) must NOT be able to produce humidity evidence
+    when the sourced boundary was never crossed -- even when all three
+    generic conditions are individually satisfied.
+    """
+    db = SessionLocal()
+    try:
+        # humidity_low: FALLING + persistence + negative ICAR deviation all match
+        # the generic gate perfectly, but 73.63% never crosses the 50% boundary --
+        # this is the exact real run_id=1/day=3 shape that produced the bug.
+        pa_low = _pa("FALLING", 3, -0.37, value=73.63, field="humidity_pct")
+        result_low = compute_problem_assessment(db, "tomato", _category("humidity_low"), pa_low, None)
+        assert result_low.status == STATUS_NO_EVIDENCE
+
+        # humidity_high: RISING + persistence + positive ICAR deviation all match
+        # the generic gate, but 75% never crosses the 80% boundary.
+        pa_high = _pa("RISING", 3, 5.0, value=75.0, field="humidity_pct")
+        result_high = compute_problem_assessment(db, "tomato", _category("humidity_high"), pa_high, None)
+        assert result_high.status == STATUS_NO_EVIDENCE
     finally:
         db.close()
 

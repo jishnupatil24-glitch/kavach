@@ -44,11 +44,16 @@ function getConfig(runId: number): FarmConfiguration {
 function nullFieldTotals(opt: WaterOptimization): void {
   opt.baseline_l_per_day = null;
   opt.optimized_l_per_day = null;
+  opt.typical_l_per_day = null;
   opt.water_saved_l_per_day = null;
   opt.water_saving_percentage = null;
+  opt.water_saved_vs_typical_l_per_day = null;
+  opt.water_saved_vs_typical_percentage = null;
   opt.total_baseline_liters = null;
   opt.total_optimized_liters = null;
   opt.total_water_saved_liters = null;
+  opt.total_typical_liters = null;
+  opt.total_water_saved_vs_typical_liters = null;
   opt.delivered_baseline_l_per_day = null;
   opt.delivered_optimized_l_per_day = null;
   opt.feasibility = opt.feasibility.map(

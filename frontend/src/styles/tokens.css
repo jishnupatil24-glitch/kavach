@@ -16,115 +16,126 @@
 
 :root {
   /* Greenhouse Daylight */
-  --bg: 246 245 239;
+  --bg: 244 245 242;
   --surface: 255 255 255;
-  --surface-sunken: 239 238 228;
+  --surface-sunken: 236 237 231;
   --surface-raised: 255 255 255;
-  --border-hairline: 225 224 210;
-  --ink: 22 38 27;
-  --body: 43 55 46;
-  --muted: 92 107 94;
+  --border-hairline: 214 216 205;
+  --ink: 15 26 19;
+  --body: 38 49 41;
+  --muted: 89 103 91;
 
-  --brand-900: 15 61 46;
-  --brand-700: 27 127 76;
-  --brand-tint: 221 239 226;
-  --accent-gold: 176 121 31;
-  --accent-gold-soft: 240 228 204;
+  --brand-900: 8 51 37;
+  --brand-700: 15 138 84;
+  --brand-tint: 214 240 223;
+  --accent-gold: 168 111 21;
+  --accent-gold-soft: 242 227 195;
 
   /* Severity ramp — hue axis, distinct in shape and colour from evidence. */
-  --sev-low: 91 124 166;
-  --sev-moderate: 185 129 43;
-  --sev-high: 196 83 31;
-  --sev-critical: 179 38 30;
+  --sev-low: 51 108 178;
+  --sev-moderate: 180 122 21;
+  --sev-high: 199 90 26;
+  --sev-critical: 191 33 33;
 
   /* Feasibility */
-  --feas-pass: 27 127 76;
-  --feas-fail: 179 38 30;
+  --feas-pass: 15 138 84;
+  --feas-fail: 191 33 33;
 
-  /* Modeled-blue: used only inside the Phase 6 prototype for savings, so mock
-     numbers never borrow the "healthy" green. */
-  --modeled-blue: 61 110 165;
+  /* AI / optimization accent — one consistent violet hue, kept deliberately
+     distinct from both brand green (structure/action) and info blue
+     (--sev-low), so a modeled Phase 6 figure is never mistaken for a
+     validated "healthy" result or a plain informational value. */
+  --modeled-blue: 109 74 199;
 
-  --focus-ring: 27 127 76;
+  --focus-ring: 15 138 84;
 
   /* Complete colour strings (no alpha modifier is ever applied to these). */
-  --evidence-ink: #2b372e;
-  --evidence-track: #d9d8cb;
-  --chart-value: #1b7f4c;
+  --evidence-ink: #263129;
+  --evidence-track: #d6d8cb;
+  --chart-value: #0f8a54;
   --chart-reference: #8a7a4a;
-  --chart-band: rgba(27, 127, 76, 0.12);
-  --chart-grid: #e1e0d2;
+  --chart-band: rgba(15, 138, 84, 0.12);
+  --chart-grid: #dcded1;
+
+  --shadow-card: 0 1px 2px rgba(15, 26, 19, 0.06), 0 1px 1px rgba(15, 26, 19, 0.04);
+  --shadow-lift: 0 12px 28px rgba(15, 26, 19, 0.12), 0 2px 6px rgba(15, 26, 19, 0.08);
 }
 
 :root[data-theme='dark'] {
-  --bg: 16 20 15;
-  --surface: 23 28 21;
-  --surface-sunken: 18 22 15;
-  --surface-raised: 30 37 27;
-  --border-hairline: 44 53 42;
-  --ink: 234 240 228;
-  --body: 196 207 188;
-  --muted: 138 150 129;
+  --bg: 8 10 9;
+  --surface: 16 20 17;
+  --surface-sunken: 12 14 12;
+  --surface-raised: 23 29 24;
+  --border-hairline: 54 63 55;
+  --ink: 238 244 236;
+  --body: 199 210 195;
+  --muted: 141 154 137;
 
-  --brand-900: 15 61 46;
-  --brand-700: 63 181 110;
-  --brand-tint: 23 48 31;
-  --accent-gold: 216 169 74;
-  --accent-gold-soft: 43 36 21;
+  --brand-900: 8 51 37;
+  --brand-700: 45 212 138;
+  --brand-tint: 20 51 35;
+  --accent-gold: 227 179 74;
+  --accent-gold-soft: 47 39 21;
 
-  --sev-low: 126 160 200;
-  --sev-moderate: 214 162 79;
-  --sev-high: 224 122 76;
-  --sev-critical: 224 101 91;
+  --sev-low: 110 165 240;
+  --sev-moderate: 232 173 66;
+  --sev-high: 240 133 74;
+  --sev-critical: 240 96 96;
 
-  --feas-pass: 63 181 110;
-  --feas-fail: 224 101 91;
+  --feas-pass: 45 212 138;
+  --feas-fail: 240 96 96;
 
-  --modeled-blue: 110 163 216;
+  --modeled-blue: 168 137 255;
 
-  --focus-ring: 63 181 110;
+  --focus-ring: 45 212 138;
 
-  --evidence-ink: #c4cfbc;
-  --evidence-track: #2c352a;
-  --chart-value: #3fb56e;
+  --evidence-ink: #c7d1c2;
+  --evidence-track: #333d34;
+  --chart-value: #2dd48a;
   --chart-reference: #cbb27a;
-  --chart-band: rgba(63, 181, 110, 0.16);
-  --chart-grid: #2c352a;
+  --chart-band: rgba(45, 212, 138, 0.16);
+  --chart-grid: #333d34;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 4px 10px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: 16 20 15;
-    --surface: 23 28 21;
-    --surface-sunken: 18 22 15;
-    --surface-raised: 30 37 27;
-    --border-hairline: 44 53 42;
-    --ink: 234 240 228;
-    --body: 196 207 188;
-    --muted: 138 150 129;
+    --bg: 8 10 9;
+    --surface: 16 20 17;
+    --surface-sunken: 12 14 12;
+    --surface-raised: 23 29 24;
+    --border-hairline: 54 63 55;
+    --ink: 238 244 236;
+    --body: 199 210 195;
+    --muted: 141 154 137;
 
-    --brand-900: 15 61 46;
-    --brand-700: 63 181 110;
-    --brand-tint: 23 48 31;
-    --accent-gold: 216 169 74;
-    --accent-gold-soft: 43 36 21;
+    --brand-900: 8 51 37;
+    --brand-700: 45 212 138;
+    --brand-tint: 20 51 35;
+    --accent-gold: 227 179 74;
+    --accent-gold-soft: 47 39 21;
 
-    --sev-low: 126 160 200;
-    --sev-moderate: 214 162 79;
-    --sev-high: 224 122 76;
-    --sev-critical: 224 101 91;
+    --sev-low: 110 165 240;
+    --sev-moderate: 232 173 66;
+    --sev-high: 240 133 74;
+    --sev-critical: 240 96 96;
 
-    --feas-pass: 63 181 110;
-    --feas-fail: 224 101 91;
+    --feas-pass: 45 212 138;
+    --feas-fail: 240 96 96;
 
-    --modeled-blue: 110 163 216;
-    --focus-ring: 63 181 110;
+    --modeled-blue: 168 137 255;
+    --focus-ring: 45 212 138;
 
-    --evidence-ink: #c4cfbc;
-    --evidence-track: #2c352a;
-    --chart-value: #3fb56e;
+    --evidence-ink: #c7d1c2;
+    --evidence-track: #333d34;
+    --chart-value: #2dd48a;
     --chart-reference: #cbb27a;
-    --chart-band: rgba(63, 181, 110, 0.16);
-    --chart-grid: #2c352a;
+    --chart-band: rgba(45, 212, 138, 0.16);
+    --chart-grid: #333d34;
+
+    --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 4px 10px rgba(0, 0, 0, 0.35);
+    --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 16px 36px rgba(0, 0, 0, 0.5);
   }
 }

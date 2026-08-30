@@ -4,7 +4,7 @@ import { useRunContext } from '@/context/RunContext';
 import { cn } from '@/lib/cn';
 
 export function DayScrubber({ className }: { className?: string }) {
-  const { day, durationDays, stepDay, setDay, dayOutOfRange } = useRunContext();
+  const { day, rawDay, durationDays, stepDay, setDay, dayOutOfRange } = useRunContext();
   const [draft, setDraft] = useState(String(day));
 
   useEffect(() => setDraft(String(day)), [day]);
@@ -16,14 +16,37 @@ export function DayScrubber({ className }: { className?: string }) {
     else setDraft(String(day));
   };
 
+  // No explicit ?day= in the URL -> viewing the run's latest day, i.e. the
+  // CURRENT optimized action plan. An explicit day (any day, including the
+  // last one once typed in) is a HISTORICAL lookup at that point in time —
+  // matches the backend's own current/historical semantics (no computed
+  // "latest" concept exists server-side; "current" is simply this run's
+  // last day, re-run on demand).
+  const isCurrent = rawDay == null;
+
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-1 rounded-pill border border-hairline bg-surface px-1',
-        dayOutOfRange && 'border-sev-high',
-        className,
-      )}
-    >
+    <div className={cn('inline-flex items-center gap-2', className)}>
+      <span
+        className={cn(
+          'hidden shrink-0 rounded-full px-2 py-0.5 font-sans text-xs font-medium sm:inline-block',
+          isCurrent
+            ? 'bg-brand-tint text-brand-900'
+            : 'border border-hairline text-muted',
+        )}
+        title={
+          isCurrent
+            ? 'Current optimized action plan — this run’s latest day'
+            : 'Historical — viewing a specific past day, not a new calculation'
+        }
+      >
+        {isCurrent ? 'Current plan' : 'Historical'}
+      </span>
+      <div
+        className={cn(
+          'inline-flex items-center gap-1 rounded-pill border border-hairline bg-surface px-1',
+          dayOutOfRange && 'border-sev-high',
+        )}
+      >
       <button
         type="button"
         aria-label="Previous day"
@@ -55,6 +78,7 @@ export function DayScrubber({ className }: { className?: string }) {
       >
         <ChevronRight size={16} aria-hidden />
       </button>
+      </div>
     </div>
   );
 }

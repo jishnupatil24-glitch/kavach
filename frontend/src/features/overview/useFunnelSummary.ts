@@ -4,6 +4,7 @@ import { useOptimization } from '@/api/hooks/optimization';
 import type { Severity } from '@/api/types';
 import { CATEGORY, TREND_DIRECTION } from '@/lib/plain-language';
 import { variableByField } from '@/lib/variables';
+import { classifyWaterImpact, type WaterImpactKind } from '@/lib/waterImpact';
 
 const SEV_RANK: Record<Severity, number> = {
   insufficient_data: 0,
@@ -27,6 +28,10 @@ export interface FunnelSummary {
   optimization: {
     quantified: number | null;
     headlineSavingPct: number | null;
+    /** Primary farmer-facing figure: KAVACH vs typical application. */
+    headlineImpactKind: WaterImpactKind | null;
+    headlineImpactPerDay: number | null;
+    headlineImpactPct: number | null;
     anyUnsupported: boolean;
   };
   changeNote: string | null;
@@ -73,6 +78,13 @@ export function useFunnelSummary(runId: number | null, day: number | null): Funn
           ).length
         : null;
     const headlineSavingPct = opt?.water_optimizations[0]?.water_saving_percentage ?? null;
+    const headlineWater = opt?.water_optimizations[0];
+    const headlineImpact = headlineWater
+      ? classifyWaterImpact(
+          headlineWater.water_saved_vs_typical_l_per_day,
+          headlineWater.water_saved_vs_typical_percentage,
+        )
+      : null;
 
     const changeNote = lead
       ? `${leadVariable} has been ${TREND_DIRECTION[lead.trend.direction].plain.toLowerCase()} for ${lead.persistence.days} ${lead.persistence.days === 1 ? 'day' : 'days'}.`
@@ -114,6 +126,9 @@ export function useFunnelSummary(runId: number | null, day: number | null): Funn
       optimization: {
         quantified,
         headlineSavingPct,
+        headlineImpactKind: headlineImpact?.kind ?? null,
+        headlineImpactPerDay: headlineImpact?.magnitudePerDay ?? null,
+        headlineImpactPct: headlineImpact?.magnitudePct ?? null,
         anyUnsupported: (opt?.unsupported.length ?? 0) > 0,
       },
       changeNote,

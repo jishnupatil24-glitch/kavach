@@ -99,7 +99,13 @@ export function OptimizationPage() {
           ) : (
             <div className="space-y-6">
               {data.water_optimizations.map((o) => (
-                <WaterOptimizationCard key={`w-${o.category}`} opt={o} runId={runId} day={day} />
+                <WaterOptimizationCard
+                  key={`w-${o.category}`}
+                  opt={o}
+                  runId={runId}
+                  day={day}
+                  decision={decision.data?.decisions.find((d) => d.category === o.category)}
+                />
               ))}
               {data.nutrient_optimizations.map((o) => (
                 <NutrientOptimizationCard

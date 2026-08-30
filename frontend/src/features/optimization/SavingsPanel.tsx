@@ -13,12 +13,15 @@ export function SavingsPanel({
   totalSaved,
   reviewCycleDays,
   why,
+  label,
 }: {
   savedPerDay: number | null;
   savingPct: number | null;
   totalSaved: number | null;
   reviewCycleDays: number | null;
   why?: string;
+  /** Override the default "Modelled water saved / extra water needed" heading. */
+  label?: string;
 }) {
   if (isMissing(savedPerDay) && isMissing(savingPct)) {
     return (
@@ -37,7 +40,7 @@ export function SavingsPanel({
   return (
     <div className="rounded-lg border border-modeled/30 bg-modeled/5 p-4">
       <p className="font-sans text-sm font-medium text-modeled">
-        {more ? 'Modelled extra water needed' : 'Modelled water saved'}
+        {label ?? (more ? 'Modelled extra water needed' : 'Modelled water saved')}
       </p>
       <p className="mt-1 font-display text-2xl font-semibold text-modeled">
         {magPerDay != null ? `${formatNumber(magPerDay, 0)} L/day` : '—'}

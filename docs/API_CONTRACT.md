@@ -239,6 +239,18 @@ Computed **on demand** from Phase 5's *stored* decision (never recomputes Phase 
 ```
 This EXACT example is real (run 584, day 37) and shows the honest `UNAVAILABLE`/`null` case (day 37 falls in `kc_development_stage`, which has no approved baseline). **See `docs/api-examples/optimization-run-example.json` for a full non-null numeric example (run 582, day 7) instead.**
 
+**Farmer-impact fields (added — additive only, every existing field above is unchanged):** each `water_optimizations[]` entry also carries a "typical farmer application" comparison point, alongside the existing baseline (theoretical requirement) and optimized (KAVACH recommendation) figures:
+```json
+{
+  "typical_l_per_plant_day": 2.1, "typical_provenance": "PROJECT_DEFINED",
+  "typical_application_multiplier_pct": 40.0,
+  "typical_l_per_day": 16800.0,
+  "water_saved_vs_typical_l_per_day": 1200.0, "water_saved_vs_typical_percentage": 7.14,
+  "total_typical_liters": 50400.0, "total_water_saved_vs_typical_liters": 3600.0
+}
+```
+`typical_l_per_plant_day` = `baseline_l_per_plant_day × (1 + typical_application_multiplier_pct / 100)` — a flat, deliberately simple **PROJECT_DEFINED** prototype heuristic (same spirit as `irrigation_adjustment_pct_*`; no sourced/measured farmer-behavior dataset exists for this project). It never changes the meaning of `baseline_l_per_plant_day` (still the theoretical crop requirement) or `optimized_l_per_plant_day` (still KAVACH's recommendation) — both keep their original, already-tested semantics. `water_saved_vs_typical_l_per_day` follows the same sign convention as `water_saved_l_per_day`: **positive = typical > KAVACH (a real saving)**, **negative = KAVACH > typical (render as "additional water required", never a saving)**. This is the intended **primary farmer-facing comparison** — `water_saved_l_per_day` (baseline vs optimized) remains available as a secondary "vs theoretical requirement" reference, not the headline metric. Seeded via `python -m app.services.optimization.seed_parameters` (`typical_application_multiplier_pct = 40`, `agronomic_parameters`, `domain=operational`, `status=project_defined`).
+
 Field notes:
 - `water_optimizations`/`nutrient_optimizations` are lists — 0, 1, or (rarely) both/multiple entries depending on how many water/nutrient categories are `ACTION_RECOMMENDED` that day. **Never assume exactly one.**
 - `plant_population.source`: `enum(PROVIDED, ESTIMATED, UNKNOWN)`.

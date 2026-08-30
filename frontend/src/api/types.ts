@@ -7,8 +7,7 @@
  *  - Enum-shaped strings are string-literal unions.
  *  - No invented fields. If the backend returns extra keys they are ignored.
  *  - Phase 6 (Optimization* / FarmConfiguration*) types describe the CONTRACT.
- *    The route is not mounted yet; those are served by the mock adapter until
- *    GET /api/optimization/tomato/runs/{id} exists.
+ *    GET /api/optimization/tomato/runs/{id} is implemented and live.
  */
 
 /* ============================ Enums ============================ */
@@ -421,16 +420,30 @@ export interface WaterOptimization {
   adjustment_provenance: Provenance;
   optimized_l_per_plant_day: number | null;
   optimized_provenance: Provenance;
+  /** How much MORE water a farmer typically applies than the theoretical
+   *  requirement, absent decision support — a comparison point only, never
+   *  measured/sourced farmer behavior. Always PROJECT_DEFINED. */
+  typical_l_per_plant_day: number | null;
+  typical_provenance: Provenance;
+  typical_application_multiplier_pct: number | null;
   plant_population: PlantPopulation;
   baseline_l_per_day: number | null;
   optimized_l_per_day: number | null;
+  typical_l_per_day: number | null;
   water_saved_l_per_day: number | null;
   water_saving_percentage: number | null;
+  /** Positive = typical > KAVACH (real saving vs typical application).
+   *  Negative = KAVACH > typical (render as "additional water required",
+   *  never a saving). */
+  water_saved_vs_typical_l_per_day: number | null;
+  water_saved_vs_typical_percentage: number | null;
   review_cycle_days: number | null;
   review_cycle_provenance: Provenance;
   total_baseline_liters: number | null;
   total_optimized_liters: number | null;
   total_water_saved_liters: number | null;
+  total_typical_liters: number | null;
+  total_water_saved_vs_typical_liters: number | null;
   irrigation_efficiency_pct: number | null;
   irrigation_efficiency_source: string | null;
   delivered_baseline_l_per_day: number | null;

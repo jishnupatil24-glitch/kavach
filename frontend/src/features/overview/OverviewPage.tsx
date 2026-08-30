@@ -1,7 +1,7 @@
 import { useRunContext } from '@/context/RunContext';
 import { useAnalysis } from '@/api/hooks/pipeline';
 import { runLabel } from '@/features/runs/runLabel';
-import { formatPercent } from '@/lib/format';
+import { formatNumber, formatPercent } from '@/lib/format';
 import { PageHeader } from '@/components/primitives/PageHeader';
 import { DayScrubber } from '@/components/layout/DayScrubber';
 import { SeverityBadge } from '@/components/status/SeverityBadge';
@@ -105,8 +105,15 @@ export function OverviewPage() {
             headline={summary.optimization.quantified ?? '—'}
             headlineNote="quantified — prototype"
             caption={
-              summary.optimization.headlineSavingPct != null
-                ? `Modelled water change: ${formatPercent(summary.optimization.headlineSavingPct)}.`
+              summary.optimization.headlineImpactKind === 'saved' ||
+              summary.optimization.headlineImpactKind === 'additional'
+                ? `${formatNumber(summary.optimization.headlineImpactPerDay, 0)} L/day ${
+                    summary.optimization.headlineImpactKind === 'saved' ? 'saved' : 'more needed'
+                  } vs typical application${
+                    summary.optimization.headlineImpactPct != null
+                      ? ` (${formatPercent(summary.optimization.headlineImpactPct)})`
+                      : ''
+                  }.`
                 : summary.optimization.anyUnsupported
                   ? 'Only qualitative actions apply today.'
                   : 'Nothing to quantify today.'

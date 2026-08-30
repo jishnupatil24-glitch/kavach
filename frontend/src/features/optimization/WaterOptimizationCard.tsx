@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Droplets } from 'lucide-react';
-import type { WaterOptimization } from '@/api/types';
+import type { DecisionRecord, WaterOptimization } from '@/api/types';
 import { CATEGORY, POPULATION_SOURCE } from '@/lib/plain-language';
 import { formatNumber } from '@/lib/format';
 import { SeverityBadge } from '@/components/status/SeverityBadge';
@@ -10,15 +10,19 @@ import { UnavailableValue } from '@/components/status/UnavailableValue';
 import { LimitationsList } from '@/components/disclaimers/LimitationsList';
 import { QuantityRow } from './QuantityRow';
 import { SavingsPanel } from './SavingsPanel';
+import { WaterImpactPanel } from './WaterImpactPanel';
+import { CompleteDiagnosisCard } from './CompleteDiagnosisCard';
 
 export function WaterOptimizationCard({
   opt,
   runId,
   day,
+  decision,
 }: {
   opt: WaterOptimization;
   runId: number;
   day: number;
+  decision?: DecisionRecord;
 }) {
   const cat = CATEGORY[opt.category] ?? { plain: opt.action_label };
   const dirWord = opt.direction === 'increase' ? 'More water' : 'Less water';
@@ -40,11 +44,25 @@ export function WaterOptimizationCard({
         <SeverityBadge severity={opt.severity} />
       </header>
 
+      <div className="mt-5">
+        <CompleteDiagnosisCard decision={decision} opt={opt} />
+      </div>
+
+      <div className="mt-5">
+        <WaterImpactPanel opt={opt} runId={runId} day={day} />
+      </div>
+
       {/* Per plant */}
-      <section className="mt-5">
-        <h4 className="mb-1 font-sans text-sm font-semibold text-ink">Per plant, per day</h4>
+      <section className="mt-5 border-t border-hairline pt-4">
+        <h4 className="mb-1 font-sans text-sm font-semibold text-ink">
+          Theoretical crop requirement — per plant, per day
+        </h4>
+        <p className="mb-2 text-xs text-muted">
+          A separate reference point (modelled crop need), not what a farmer would typically apply —
+          see "Water impact" above for the farmer-facing comparison.
+        </p>
         <QuantityRow
-          label="Baseline"
+          label="Theoretical requirement (baseline)"
           value={opt.baseline_l_per_plant_day}
           unit="L"
           provenance={opt.baseline_provenance}
@@ -58,7 +76,7 @@ export function WaterOptimizationCard({
           precision={0}
         />
         <QuantityRow
-          label="Optimized"
+          label="KAVACH recommendation"
           value={opt.optimized_l_per_plant_day}
           unit="L"
           provenance={opt.optimized_provenance}
@@ -69,7 +87,9 @@ export function WaterOptimizationCard({
 
       {/* Whole field */}
       <section className="mt-5 border-t border-hairline pt-4">
-        <h4 className="mb-1 font-sans text-sm font-semibold text-ink">Whole field, per day</h4>
+        <h4 className="mb-1 font-sans text-sm font-semibold text-ink">
+          Whole field, per day — vs theoretical requirement
+        </h4>
         <div className="mb-2 text-xs text-muted">
           Plant population:{' '}
           {popUnknown ? (
@@ -99,7 +119,7 @@ export function WaterOptimizationCard({
           ) : null}
         </div>
         <QuantityRow
-          label="Baseline"
+          label="Theoretical requirement"
           value={opt.baseline_l_per_day}
           unit="L/day"
           provenance="MODELED"
@@ -108,7 +128,7 @@ export function WaterOptimizationCard({
           why={firstLimit}
         />
         <QuantityRow
-          label="Optimized"
+          label="KAVACH recommendation"
           value={opt.optimized_l_per_day}
           unit="L/day"
           provenance="MODELED"
@@ -124,6 +144,7 @@ export function WaterOptimizationCard({
             totalSaved={opt.total_water_saved_liters}
             reviewCycleDays={opt.review_cycle_days}
             why={firstLimit}
+            label="Modelled change vs theoretical requirement"
           />
         </div>
       </section>

@@ -75,8 +75,8 @@ const config: Config = {
         pill: '999px',
       },
       boxShadow: {
-        card: '0 1px 3px rgba(15, 61, 46, 0.06)',
-        lift: '0 6px 20px rgba(15, 61, 46, 0.10)',
+        card: 'var(--shadow-card)',
+        lift: 'var(--shadow-lift)',
       },
       maxWidth: {
         content: '1280px',

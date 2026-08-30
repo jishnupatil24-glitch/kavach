@@ -9,6 +9,7 @@ from app.services.simulator.baseline import load_baseline
 from app.services.simulator.config import SimulationConfig
 from app.services.simulator.generator import generate
 from app.services.decision_engine.history import persist_run_decisions
+from app.services.optimization.history import persist_run_optimizations
 from app.services.state_analysis.history import persist_run_history
 from app.services.stress_assessment.history import persist_run_assessments
 
@@ -108,6 +109,17 @@ def create_run(db: Session, config: SimulationConfig) -> SimulationRun:
     persist_run_decisions(db, run.id)
 
     # Same re-expiration reasoning as above: Phase 5's own internal
+    # commit re-expires `run` again.
+    db.refresh(run)
+
+    # Phase 6 runs only after Phase 5's history for this run is fully
+    # committed above -- it reads that already-durable data via
+    # get_stored_decision, never recomputing it. Same failure-safety
+    # reasoning as the Phase 3/4/5 calls. Farm configuration (if any)
+    # is read as-is; Phase 6 never creates or modifies it.
+    persist_run_optimizations(db, run.id)
+
+    # Same re-expiration reasoning as above: Phase 6's own internal
     # commit re-expires `run` again.
     db.refresh(run)
 
