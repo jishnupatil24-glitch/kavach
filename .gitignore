@@ -1,9 +1,29 @@
+# Python
+.venv/
 backend/.venv/
 __pycache__/
 *.pyc
-backend/kavach.db
-backend/tests/**/kavach.db
 .pytest_cache/
 
-# Local DB backups (large binaries)
+# Local SQLite database (rebuilt from seed scripts — never committed)
+backend/kavach.db
+backend/tests/**/kavach.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Local database backups / dev snapshots (large binaries, not required to run)
 data/backups/
+
+# Node / frontend build output
+node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Local env files (use frontend/.env.example as the template)
+.env
+frontend/.env
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db

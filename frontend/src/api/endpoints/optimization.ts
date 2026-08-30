@@ -1,9 +1,13 @@
 /**
  * Phase 6 endpoint facade.
  *
- * VITE_MOCK_OPTIMIZATION=true  -> the in-memory mock adapter (default; Phase 6
- *                                 has no backend route yet).
- * VITE_MOCK_OPTIMIZATION=false -> the real endpoints below, unchanged.
+ * Phase 6 (optimization + farm-config) IS implemented and mounted in
+ * `backend/app/main.py`, so the real API is the default.
+ *
+ * VITE_MOCK_OPTIMIZATION unset / =false -> the real endpoints below (default).
+ * VITE_MOCK_OPTIMIZATION=true           -> the in-memory mock adapter, an
+ *                                          opt-in dev fallback for demoing the
+ *                                          UI with the backend offline.
  *
  * UI code imports only from here, so flipping the flag needs zero component
  * changes.
@@ -21,7 +25,7 @@ import {
 } from '../mock/optimizationAdapter';
 
 export const OPTIMIZATION_IS_MOCKED =
-  (import.meta.env.VITE_MOCK_OPTIMIZATION ?? 'true').toLowerCase() !== 'false';
+  (import.meta.env.VITE_MOCK_OPTIMIZATION ?? 'false').toLowerCase() === 'true';
 
 export function getOptimization(runId: number, day: number): Promise<OptimizationAssessment> {
   if (OPTIMIZATION_IS_MOCKED) return getOptimizationMock(runId, day);

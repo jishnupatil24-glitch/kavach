@@ -18,10 +18,4 @@ module.exports = {
     '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
-  overrides: [
-    {
-      files: ['**/*.test.ts', '**/*.test.tsx', 'vitest.setup.ts'],
-      env: { 'vitest/globals': true },
-    },
-  ],
 };

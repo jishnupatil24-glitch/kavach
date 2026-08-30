@@ -1,10 +1,18 @@
 # KAVACH — PROJECT STATE
 
-**This is the single source of truth for the current engineering state of
-KAVACH.** It is not a README (that explains the project to a person); this
-explains the current repository state to a future Claude Code session or
-developer, so work can continue without re-deriving context or
-misunderstanding the architecture.
+> **STALE — historical snapshot (end of Phase 3).** This document was last
+> updated when Phase 3 was the frontier. Phases 4 (stress/problem
+> assessment), 5 (decision engine) and 6 (resource-aware optimization) have
+> since been implemented, and a React/Vite frontend has been built.
+> For the **current** engineering state, read `KAVACH_PROJECT_CONTEXT.md`
+> and `docs/BACKEND_STATUS.md` — those are authoritative now. The
+> architecture, reference-data, and Phase 0–3 sections below are still
+> accurate; anything describing Phase 4+ as "not started" / "next" is not.
+
+**This document explains the repository state as of Phase 3** to a future
+Claude Code session or developer. It is not a README (that explains the
+project to a person); this explains the repository state so work can
+continue without re-deriving context or misunderstanding the architecture.
 
 **Rule for every future session, including this one on its next phase:**
 Read this file first. Then verify it against the actual repository and
